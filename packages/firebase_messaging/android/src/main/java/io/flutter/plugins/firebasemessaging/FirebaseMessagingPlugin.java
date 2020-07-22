@@ -248,6 +248,22 @@ public class FirebaseMessagingPlugin extends BroadcastReceiver
                   result.success(task.getResult().getToken());
                 }
               });
+    } else if ("getId".equals(call.method)) {
+      FirebaseInstanceId.getInstance()
+        .getInstanceId()
+        .addOnCompleteListener(
+          new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+              if (!task.isSuccessful()) {
+                Log.w(TAG, "getId, error fetching instanceID: ", task.getException());
+                result.success(null);
+                return;
+              }
+
+              result.success(task.getResult().getId());
+            }
+          });
     } else if ("deleteInstanceID".equals(call.method)) {
       new Thread(
               new Runnable() {

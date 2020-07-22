@@ -89,6 +89,7 @@ class PushMessagingExample extends StatefulWidget {
 
 class _PushMessagingExampleState extends State<PushMessagingExample> {
   String _homeScreenText = "Waiting for token...";
+  String _homeScreenText2 = "Waiting for id...";
   bool _topicButtonsDisabled = false;
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -166,6 +167,14 @@ class _PushMessagingExampleState extends State<PushMessagingExample> {
       });
       print(_homeScreenText);
     });
+
+    _firebaseMessaging.getId().then((String id) {
+      assert(id != null);
+      setState(() {
+        _homeScreenText2 = "Push Messaging id: $id";
+      });
+      print(_homeScreenText2);
+    });
   }
 
   @override
@@ -190,6 +199,9 @@ class _PushMessagingExampleState extends State<PushMessagingExample> {
             children: <Widget>[
               Center(
                 child: Text(_homeScreenText),
+              ),
+              Center(
+                child: Text(_homeScreenText2),
               ),
               Row(children: <Widget>[
                 Expanded(
